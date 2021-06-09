@@ -1,8 +1,15 @@
-const { user } = require('../../models')
+const { user, ktp } = require('../../models')
 
 exports.users = async (req,res) => {
     try {
         const users = await user.findAll({
+            include: {
+                model: ktp,
+                as: 'ktp',
+                attributes: {
+                    exclude: ['createdAt','updatedAt']
+                }
+            },
             attributes: {
               exclude: ['createdAt','updatedAt','password']
             }

@@ -2,8 +2,6 @@ const express = require('express')
 
 const router = express.Router()
 
-// Wadah router/endpoin/url
-
 const { getData,
         getDetail,
         addData,
@@ -16,13 +14,19 @@ const { users,
         updateUser, 
         deleteUser } = require('../controllers/user')
 
+const { userProducts, addProduct, userOrders } = require('../controllers/product')
+
+// Product
+router.get('/user-products', userProducts)
+router.get('/user-orders', userOrders)
+router.post('/product', addProduct)
+
 // User
 router.get('/users', users)
 router.get('/user/:id', user)
 router.post('/user', addUser)
 router.patch('/user/:id', updateUser)
 router.delete('/user/:id', deleteUser)
-
 
 // Todo
 router.get('/', getData)
