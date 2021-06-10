@@ -2,6 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 
+// Controllers
 const { getData,
         getDetail,
         addData,
@@ -16,9 +17,18 @@ const { users,
 
 const { userProducts, addProduct, userOrders } = require('../controllers/product')
 
+const { registrasi, login } = require('../controllers/auth')
+
+// Middleware
+const { auth } = require('../middleware/auth')
+
+// Auth
+router.post('/register', registrasi)
+router.post('/login', login)
+
 // Product
-router.get('/user-products', userProducts)
-router.get('/user-orders', userOrders)
+router.get('/user-products', auth, userProducts)
+router.get('/user-orders',auth, userOrders)
 router.post('/product', addProduct)
 
 // User

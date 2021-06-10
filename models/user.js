@@ -22,24 +22,19 @@ module.exports = (sequelize, DataTypes) => {
           name: 'idUser'
         }
       }),
-      // user.hasMany(models.order,{
-      //   as: 'orderUser',
-      //   foreignKey: {
-      //     name: 'idUser'
-      //   }
-      // }),
-      // user.hasMany(models.order,{
-      //   as: 'orderPenjual',
-      //   foreignKey: {
-      //     name: 'idPenjual'
-      //   }
-      // }),
+      user.hasMany(models.order,{
+        as: 'seller',
+        foreignKey: {
+          name: 'idPenjual'
+        }
+      }),
       user.belongsToMany(models.product,{
-        as: 'userOrder',
+        as: 'products',
         through: {
           model: "order",
           as: "conjunction"
-        }
+        },
+        foreignKey: 'idUser'
       })
     }
   };

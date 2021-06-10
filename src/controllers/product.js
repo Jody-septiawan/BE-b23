@@ -3,20 +3,24 @@ const { user, product, order } = require('../../models')
 
 exports.userProducts = async (req,res) => {
     try {
+
+        const { idUser } = req
+
         const users = await user.findAll({
-            include: {
-                model: product,
-                as: 'product',
-                attributes: {
-                    exclude: ['createdAt','updatedAt']
+            include:{
+                        model: product,
+                        as: 'product',
+                        attributes: {
+                            exclude: ['createdAt','updatedAt']
+                        }
+                    },
+                    attributes: {
+                    exclude: ['createdAt','updatedAt','password']
                 }
-            },
-            attributes: {
-              exclude: ['createdAt','updatedAt','password']
-            }
-          })
+        })
 
         res.send({
+            idUser,
             status: 'success',
             message: 'User product Successfully Get',
             data: {
@@ -53,29 +57,20 @@ exports.addProduct = async (req,res) => {
 }
 
 exports.userOrders = async (req,res) => {
-    // {
-    //     model: Category,
-    //     as: "categories",
-    //     through: {
-    //       model: CategoryProduct,
-    //       as: "conjuction",
-    //       attributes: []
-    //     },
-    //     attributes: {
-    //       exclude: ["createdAt", "updatedAt"]
-    //     }
-    //   }
+  
     try {
         const orders = await user.findAll({
             include: {
                 model: product,
-                as: 'product',
+                as: 'products',
                 through: {
                     model: order,
                     as: 'conjuction',
-                    attributes: {
-                        exclude: ['createdAt','updatedAt']
-                    }
+                    attributes: []
+                },
+                include: {
+                    model: user,
+                    as: 'user'
                 },
                 attributes: {
                     exclude: ['createdAt','updatedAt']

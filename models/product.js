@@ -16,18 +16,13 @@ module.exports = (sequelize, DataTypes) => {
           name: 'idUser'
         }
       }),
-      // product.hasMany(models.order,{
-      //   as: 'orderProduct',
-      //   foreignKey: {
-      //     name: 'idProduct'
-      //   }
-      // }),
       product.belongsToMany(models.user,{
-        as: 'userOrder',
+        as: 'users',
         through: {
           model: "order",
           as: "conjunction"
-        }
+        },
+        foreignKey: 'idProduct'
       })
     }
   };
